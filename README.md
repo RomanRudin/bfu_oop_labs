@@ -7,6 +7,7 @@ Language was changed to Russian.
 - [Список выполненных лаб](#Labs-done)
 - [Тексты лаб](#Labs-text)
 - [Объяснения лаб](#Explanation-labs)
+- [Записи с лекций](#Lectures)
 
 
 Нашли ошибку? Сделайте [пулл-реквест](https://habr.com/ru/articles/125999/) с исправлениями - будете соавтором.
@@ -52,3 +53,17 @@ Language was changed to Russian.
 
 # Объяснение лаб
 </a>
+
+
+
+
+
+<a name="Lectures">
+
+# Записи лекций
+</a>
+
+1. [Магические методы](/Practice/Lesson1/)
+
+2. [Наследование, аггрегация, композиция](/Practice/Lesson2/)
+
