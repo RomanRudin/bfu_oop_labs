@@ -1,0 +1,10 @@
+<root>
+    <handlers>
+        <handler filepath='log.log'>File</handler>
+        <handler>Console</handler>
+    </handlers>
+    <filters>
+        <filter pattern='ERROR'>Simple</filter>
+        <filter pattern='WARNING'>Simple</filter>
+    </filters>
+</root>
