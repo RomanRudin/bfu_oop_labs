@@ -38,7 +38,7 @@
     - sign_in(user: User) - авторизоваться в системе
     - sign_out(user: User) - выйти из учётной записи
     - is_authorized(user: User) -> bool
-    - autosigning(user: User)
+    - auto_sign_in(user: User)
 
 
 7. Реализуем класс, поддерживающий интерфейс \ протокол IAuthService, который работает по типу куков (куки):
