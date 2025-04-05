@@ -20,7 +20,7 @@ Language was changed to Russian.
 
 <a name="Labs-done">
 
-# Выполненные (и проверенные Балабановым) работы
+# Выполненные (и проверенные) работы
 </a>
 <a name="Labs-done-python">
 
