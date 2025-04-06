@@ -1,6 +1,7 @@
 import socket
+from typing import NoReturn
 
-def run_tcp_server():
+def run_tcp_server() -> NoReturn:
     HOST = 'localhost'  # Слушаем все интерфейсы: '' 
     PORT = 5140
     
@@ -18,7 +19,7 @@ def run_tcp_server():
                     print(f"Received TCP: {data.decode('utf-8')}")
 
 
-def run_udp_server():
+def run_udp_server() -> NoReturn:
     HOST = 'localhost'
     PORT = 5140
     
