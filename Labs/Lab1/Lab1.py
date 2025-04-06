@@ -3,8 +3,8 @@ import math
 
 WIDTH, HEIGHT = 1024, 750
 
-# Try using slots
-# Try using pydantic
+#TODO Try using slots
+#TODO Try using pydantic
 
 class Point2d:
     x: int
