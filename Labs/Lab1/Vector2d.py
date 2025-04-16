@@ -1,6 +1,6 @@
 from typing import Any, Generator, Self
 import math
-from Lab1 import Point2d, WIDTH, HEIGHT
+from point2d import Point2d, WIDTH, HEIGHT
 
 class Vector2d:
     x: int
@@ -20,8 +20,6 @@ class Vector2d:
     
     @x.setter
     def x(self, x: int) -> None:
-        # if not (0 <= x <= WIDTH):
-            # raise ValueError("Wrong x value")
         self._x = x
         
     @property
@@ -30,11 +28,9 @@ class Vector2d:
     
     @y.setter
     def y(self, y: int) -> None:
-        # if not (0 <= y <= HEIGHT):
-            # raise ValueError("Wrong y value")
         self._y = y
 
-    def __getitem__(self, index) -> int:
+    def __getitem__(self, index) -> int: # Check slots
         match index:
             case 0:
                 return self.x
@@ -52,7 +48,7 @@ class Vector2d:
             case _:
                 raise IndexError("Index out of range")
 
-    def __iter__(self) -> Generator[int, Any, None]:
+    def __iter__(self) -> Generator[int]:
         yield self.x
         yield self.y
 
@@ -89,7 +85,7 @@ class Vector2d:
     def dot(self, other: Self) -> int:
         return self.x * other.x + self.y * other.y
     
-    @staticmethod
+    @staticmethod   # Can be done better with classmethod
     def dot_product(vector1: Self, vector2: Self) -> int:
         return vector1.x * vector2.x + vector1.y * vector2.y
     

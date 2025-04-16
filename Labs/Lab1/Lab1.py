@@ -1,5 +1,5 @@
-from Point2d import Point2d
-from Vector2d import Vector2d
+from point2d import Point2d
+from vector2d import Vector2d
 
 
 if __name__ == "__main__":
