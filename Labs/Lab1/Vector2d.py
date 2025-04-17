@@ -1,4 +1,4 @@
-from typing import Any, Generator, Self
+from typing import Generator, Self
 import math
 from point2d import Point2d, WIDTH, HEIGHT
 

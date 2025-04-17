@@ -7,36 +7,31 @@ Language was changed to Russian.
 - [Список выполненных лаб](#Labs-done)
 - [Тексты лаб](#Labs-text)
 - [Объяснения лаб](#Explanation-labs)
-- [Записи с лекций](#Lectures)
+- [Записи с практик](#Lectures)
 
 
 Нашли ошибку? Сделайте [пулл-реквест](https://habr.com/ru/articles/125999/) с исправлениями - будете соавтором.
 
 Крайне рекомендую от себя читать объяснения к лабам. Особенно те объяснения, что написаны мной вручную, те, где даны не только ссылки. Там информация изложена в максимально понятном ключе и должна достаточно просто восприниматься.
  
-Если ссылка с выполненной лабы ведёт на объяснение лабы - просто почитайте там дальше, видимо, есть несколько вариантов её выполнения и дальше таам будут ссылки.
+Если ссылка с выполненной лабы ведёт на объяснение лабы - просто почитайте сначала объяснения, пожалуйста.
 
 
 
 <a name="Labs-done">
 
-# Выполненные (и проверенные Балабановым) работы
+# Выполненные (и проверенные Верещагиным) работы
 </a>
-<a name="Labs-done-python">
+<a name="Labs-done">
 
-<!-- ### Python <img src="https://github.com/devicons/devicon/blob/master/icons/python/python-original.svg"  title="Python" alt="Python" width="40" height="40"/>&nbsp;
-</a>
-
-1. [] []()
-
-
-<a name="Labs-done-c++">
-
-### C++ <img src="https://github.com/devicons/devicon/blob/master/icons/cplusplus/cplusplus-original.svg"  title="Python" alt="Python" width="40" height="40"/>&nbsp;
+### Python <img src="https://github.com/devicons/devicon/blob/master/icons/python/python-original.svg"  title="Python" alt="Python" width="40" height="40"/>&nbsp;
 </a>
 
-1. [] []() -->
-
+1. [x] [Точки и векторы](/Labs/Lab1/)
+2. [ ] [Красивая консоль](/Labs/Lab2/lab2.py)
+3. [x] [Система логирования](/Labs/Lab3/Lab3.py)
+4. [ ] [Валидация и автообновление](/Labs/Lab4/Lab4.py)
+5. [ ] [Cистема авторизации](/Labs/Lab5/Lab5.py)
 
 
 
@@ -44,7 +39,6 @@ Language was changed to Russian.
 
 # Текст лаб
 </a>
-
 
 
 
@@ -60,7 +54,7 @@ Language was changed to Russian.
 
 <a name="Lectures">
 
-# Записи лекций
+# Записи с практик
 </a>
 
 1. [Магические методы](/Practice/Lesson1/)
