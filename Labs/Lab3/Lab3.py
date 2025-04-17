@@ -50,12 +50,12 @@ class SocketHandler(LogHandlerProtocol):
         self.port = port
 
     def handle(self, message: str) -> None:
-        # try:
+        try:
             with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
                 sock.connect((self.host, self.port))
                 sock.sendall(f'{str(datetime.now().isoformat())}: \t {message}\n'.encode('utf-8'))
-        # except Exception as e:
-            # print(f'Socket error: {e}')
+        except Exception as e:
+            print(f'Socket error: {e}')
 
 
 class ConsoleHandler(LogHandlerProtocol):
