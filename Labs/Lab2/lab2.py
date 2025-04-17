@@ -3,6 +3,8 @@ from enum import Enum
 from typing import Self
 
 class Color(Enum):
+    TRANSPARENT = 0
+    BLACK = 30
     RED = 31
     GREEN = 32
     YELLOW = 33
@@ -10,14 +12,16 @@ class Color(Enum):
     MAGENTA = 35
     CYAN = 36
     WHITE = 37
+    
 
 class Printer:
     _font: dict[str, list[str]] = {}
     _char_width: int = 5
     _char_height: int = 5
 
-    def __init__(self, color: Color, position: tuple[int, int], symbol: str) -> None:
+    def __init__(self, color: Color, position: tuple[int, int], symbol: str, background_color: Color = Color.TRANSPARENT) -> None:
         self.color = color
+        self.background_color = background_color
         self.position = position
         self.symbol = symbol
         self.initial_x, self.initial_y = position
@@ -33,7 +37,7 @@ class Printer:
             cls._char_width = len(sample_char[0])
 
     @classmethod
-    def print_(cls, text: str, color: Color, position: tuple[int, int], symbol: str) -> None:
+    def print_(cls, text: str, color: Color, position: tuple[int, int], symbol: str, background_color: Color = Color.BLACK) -> None:
         if not cls._font:
             cls.load_font()
         
@@ -44,17 +48,17 @@ class Printer:
             
             for line_num, line in enumerate(cls._font[char]):
                 rendered = line.replace("*", symbol)
-                print(f"\033[{y + line_num + 1};{x + 1}H\033[{color.value}m{rendered}\033[0m", end="")
+                print(f"\033[{y + line_num + 1};{x + 1}H\033[{color.value}m\033[{background_color.value + 10}m{rendered}\033[0m", end="")
             
             x += cls._char_width
         print()
 
     def __enter__(self) -> Self:
-        print(f"\033[{self.color.value}m", end="") 
+        print(f"\033[{self.color.value}m\033[{self.background_color.value + 10}m", end="") 
         return self
 
     def __exit__(self, *args) -> None:
-        pass
+        print(f"\033[0m", end="")
 
     def print(self, text: str) -> None:
         x, y = self.current_x, self.current_y
@@ -75,7 +79,7 @@ if __name__ == "__main__":
     for _ in range(30):
         print()
     Printer.load_font(filename="Labs/Lab2/font.json")
-    Printer.print_("AB", Color.RED, (5, 5), "#")
-    with Printer(Color.GREEN, (5, 10), "@") as printer:
+    Printer.print_("AB", Color.RED, (5, 5), "#", background_color=Color.TRANSPARENT)
+    with Printer(Color.GREEN, (0, 10), "@", background_color=Color.BLACK) as printer:
         # printer.print("AB")
-        printer.print("OOP LABS")
+        printer.print("OOP LABS ARE COOL")
