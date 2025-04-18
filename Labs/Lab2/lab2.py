@@ -29,12 +29,15 @@ class Printer:
 
     @classmethod
     def load_font(cls, filename: str = "font.json") -> None:
-        with open(filename, "r") as f:
-            cls._font = json.load(f)
-        if cls._font:
-            sample_char = next(iter(cls._font.values()))
-            cls._char_height = len(sample_char)
-            cls._char_width = len(sample_char[0])
+        try:
+            with open(filename, "r") as f:
+                cls._font = json.load(f)
+            if cls._font:
+                sample_char = next(iter(cls._font.values()))
+                cls._char_height = len(sample_char)
+                cls._char_width = len(sample_char[0])
+        except Exception as e:
+            print(f"Error loading font file: {e}")
 
     @classmethod
     def print_(cls, text: str, color: Color, position: tuple[int, int], symbol: str, background_color: Color = Color.BLACK) -> None:
@@ -81,5 +84,5 @@ if __name__ == "__main__":
     Printer.load_font(filename="Labs/Lab2/font.json")
     Printer.print_("AB", Color.RED, (5, 5), "#", background_color=Color.TRANSPARENT)
     with Printer(Color.GREEN, (0, 10), "@", background_color=Color.BLACK) as printer:
-        # printer.print("AB")
         printer.print("OOP LABS ARE COOL")
+        # printer.print("AB")
