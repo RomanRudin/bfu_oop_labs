@@ -96,7 +96,6 @@ class Printer:
                 rendered = line.replace("*", self.symbol)
                 # print(f"\033[{y + line_num + 1};{x + 1}H{rendered}", end="")
                 print(PLACING.format(y + line_num + 1, x + 1, rendered), end="")
-                # self.__message(rendered, y + line_num + 1};{x + 1}H{
             
             x += self._char_width
         self.current_x = x
