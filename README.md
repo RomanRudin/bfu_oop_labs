@@ -28,9 +28,9 @@ Language was changed to Russian.
 </a>
 
 1. [x] [Точки и векторы](/Labs/Lab1/)
-2. [ ] [Красивая консоль](/Labs/Lab2/lab2.py)
+2. [x] [Красивая консоль](/Labs/Lab2/lab2.py)
 3. [x] [Система логирования](/Labs/Lab3/Lab3.py)
-4. [ ] [Валидация и автообновление](/Labs/Lab4/Lab4.py)
+4. [x] [Валидация и автообновление](/Labs/Lab4/Lab4.py)
 5. [ ] [Cистема авторизации](/Labs/Lab5/Lab5.py)
 
 
