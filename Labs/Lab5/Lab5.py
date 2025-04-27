@@ -30,21 +30,21 @@ class User:
 
 
 class DataRepositoryProtocol(Protocol[T]):
-    def get_by_id(id: int) -> SupportUserFormatProtocol:
+    def get_all(self) -> Sequence[T]:
         ...
-    def get_all(filter: str, sorting: str) -> list[User]:
+    def get_by_id(self, id: int) -> Optional[T]:
         ...
-    def add(user: User):
+    def add(self, item: T) -> None:
         ...
-    def update(user: User):
+    def update(self, item:T ) -> None:
         ...
-    def delete(user: User):
+    def delete(self, item: T) -> None:
         ...
 
 
 
 class UserRepositoryProtocol(DataRepositoryProtocol[User], Protocol):
-    def get_by_login(login: str) -> User: 
+    def get_by_login(self, login: str) -> Optional[User]: 
         ...
 
 

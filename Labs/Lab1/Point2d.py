@@ -6,29 +6,29 @@ WIDTH, HEIGHT = 1024, 750
 #TODO Try using pydantic
 
 class Point2d:
-    x: int
-    y: int
+    x: float
+    y: float
 
-    def __init__(self, x: int, y: int) -> None:
+    def __init__(self, x: float, y: float) -> None:
         self.x = x
         self.y = y
 
     @property
-    def x(self) -> int:
+    def x(self) -> float:
         return self._x    
     
     @x.setter
-    def x(self, x: int) -> None:
+    def x(self, x: float) -> None:
         if not (0 <= x <= WIDTH):
             raise ValueError("Wrong x value")
         self._x = x
         
     @property
-    def y(self) -> int:
+    def y(self) -> float:
         return self._y    
     
     @y.setter
-    def y(self, y: int) -> None:
+    def y(self, y: float) -> None:
         if not (0 <= y <= HEIGHT):
             raise ValueError("Wrong y value")
         self._y = y
