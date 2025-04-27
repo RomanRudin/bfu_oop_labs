@@ -26,7 +26,6 @@ class Printer:
     def __init__(self, color: Color, position: tuple[int, int], symbol: str, background_color: Color = Color.TRANSPARENT) -> None:
         self.color = color
         self.background_color = background_color
-        self.position = position
         self.symbol = symbol
         self.initial_x, self.initial_y = position
         self.current_x, self.current_y = position
@@ -50,8 +49,6 @@ class Printer:
                         if '-' in line:
                             raise ValueError(f"Font file is not valid, character height is not consistent. List of correct characters: {cls._font.keys()}")
                         cls._font[char].append(line)
-            if cls._font:
-                sample_char = next(iter(cls._font.values()))
         except Exception as e:
             print(f"Error loading font file: {e}")
             raise FileNotFoundError

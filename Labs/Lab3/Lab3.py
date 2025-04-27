@@ -6,9 +6,8 @@ from datetime import datetime
 
 
 class LogFilterProtocol(Protocol):
-    @abstractmethod
     def match(self, message: str) -> bool:
-        pass
+        ...
 
 
 class SimpleLogFilter(LogFilterProtocol):
@@ -20,7 +19,7 @@ class SimpleLogFilter(LogFilterProtocol):
     
 
 class ReLogFilter(LogFilterProtocol):
-    def __init__(self, regex_pattern: str):
+    def __init__(self, regex_pattern: str) -> None:
         self.regex = re.compile(regex_pattern)
 
     def match(self, message: str) -> bool:
@@ -30,9 +29,8 @@ class ReLogFilter(LogFilterProtocol):
 
 
 class LogHandlerProtocol(Protocol):
-    @abstractmethod
     def handle(self, message: str) -> None:
-        pass
+        ...
 
 
 class FileHandler(LogHandlerProtocol):
@@ -40,8 +38,11 @@ class FileHandler(LogHandlerProtocol):
         self.filepath = filepath
 
     def handle(self, message: str) -> None:
-        with open(self.filepath, 'a') as file:
-            file.write(f'{datetime.now().isoformat()}: \t {message}\n')
+        try:
+            with open(self.filepath, 'a') as file:
+                file.write(f'{datetime.now().isoformat()}: \t {message}\n')
+        except Exception as e:
+            print(f'File error: {e}')
 
 
 class SocketHandler(LogHandlerProtocol):
@@ -79,10 +80,10 @@ class Logger:
             for handler in self.handlers:
                 handler.handle(message)
 
-        
 
+                
 
-def check_logger() -> None:
+if __name__ == '__main__':
     handlers = [
         ConsoleHandler(),
         FileHandler('Labs/Lab3/log.log'),
@@ -106,6 +107,3 @@ def check_logger() -> None:
 
     for msg in messages:
         logger.write(msg)
-
-if __name__ == '__main__':
-    check_logger()
