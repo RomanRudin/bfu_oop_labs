@@ -19,9 +19,8 @@ class AuthServiceProtocol(Protocol):
 
 
 class AuthService:
-    SESSION_FILE = 'Lans/Lab5/data/session.json'
-
-    def __init__(self, user_repo: UserRepositoryProtocol) -> None:
+    def __init__(self, user_repo: UserRepositoryProtocol, session_file: str = 'Labs/Lab5/data/session.json') -> None:
+        self.SESSION_FILE = session_file
         self.user_repo = user_repo
         self._current_user: Optional[User] = None
         self._load_session()

@@ -5,7 +5,7 @@ from auth_service import AuthService
 
 if __name__ == "__main__":
     user_repo = UserRepository()
-    auth_service = AuthService(user_repo)
+    auth_service = AuthService(user_repo, )
 
     users = [
         User(1, "admin", "secret", "Administrator", "admin@example.com"),

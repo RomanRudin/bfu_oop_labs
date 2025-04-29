@@ -10,7 +10,7 @@ class UserRepositoryProtocol(DataRepositoryProtocol[User], Protocol):
 
 
 class UserRepository(DataRepository[User], UserRepositoryProtocol):
-    def __init__(self, file_path: str = 'Lans/Lab5/data/users.json') -> None:
+    def __init__(self, file_path: str = 'Labs/Lab5/data/users.json') -> None:
         super().__init__(file_path, User)
 
     def get_by_login(self, login: str) -> Optional[User]:
