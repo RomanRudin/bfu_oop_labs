@@ -1,5 +1,5 @@
 from enum import Enum
-from typing import Self, Optional
+from typing import Self
 
 COLORING = "\033[{}m\033[{}m{}"
 PLACING = "\033[{};{}H{}"
