@@ -14,6 +14,4 @@ class User:
     address: Optional[str] = field(default=False, compare=False)
 
     def __lt__(self, other: Self) -> bool:
-        if not isinstance(other, User):
-            return NotImplemented
         return self.name.lower() < other.name.lower()
