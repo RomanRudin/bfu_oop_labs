@@ -1,122 +1,119 @@
 import json
 from abc import ABC, abstractmethod
-from dataclasses import dataclass
-from typing import Dict, List, Optional
-import os
+from typing import Dict, List, Optional, Self
 
-# Базовые классы для паттерна Command
 class Command(ABC):
     @abstractmethod
-    def execute(self):
-        pass
-    
+    def execute(self) -> None:
+        ...
     @abstractmethod
-    def undo(self):
-        pass
-
+    def undo(self) -> None:
+        ...
     @abstractmethod
-    def redo(self):
-        pass
+    def redo(self) -> None:
+        ...
 
-# Конкретные команды
+
+
 class PrintCharCommand(Command):
-    def __init__(self, char: str, output):
+    def __init__(self, char: str, output) -> None:
         self.char = char
         self.output = output
         
-    def execute(self):
+    def execute(self) -> str:
         self.output.add_char(self.char)
         return f"{self.char}"
         
-    def undo(self):
+    def undo(self) -> str:
         self.output.remove_char()
         return f"removed '{self.char}'"
         
-    def redo(self):
+    def redo(self) -> str:
         return self.execute()
 
 class VolumeUpCommand(Command):
-    def __init__(self, output):
+    def __init__(self, output) -> None:
         self.output = output
         self.amount = 20
         
-    def execute(self):
+    def execute(self) -> str:
         self.output.volume += self.amount
-        return f"volume increased +{self.amount}%"
+        return f"volume was increased +{self.amount}%"
         
-    def undo(self):
+    def undo(self) -> str:
         self.output.volume -= self.amount
-        return f"volume decreased +{self.amount}%"
+        return f"volume was decreased +{self.amount}%"
         
-    def redo(self):
+    def redo(self) -> str:
         return self.execute()
 
 class VolumeDownCommand(Command):
-    def __init__(self, output):
+    def __init__(self, output) -> None:
         self.output = output
         self.amount = 20
         
-    def execute(self):
+    def execute(self) -> str:
         self.output.volume -= self.amount
-        return f"volume decreased -{self.amount}%"
+        return f"volume was decreased -{self.amount}%"
         
-    def undo(self):
+    def undo(self) -> str:
         self.output.volume += self.amount
-        return f"volume increased -{self.amount}%"
+        return f"volume was increased -{self.amount}%"
         
-    def redo(self):
+    def redo(self) -> str:
         return self.execute()
 
 class MediaPlayerCommand(Command):
-    def __init__(self, output):
+    def __init__(self, output) -> None:
         self.output = output
         self.was_playing = False
         
-    def execute(self):
+    def execute(self) -> str:
         self.was_playing = self.output.media_playing
         self.output.media_playing = True
-        return "media player launched"
+        return "media player was launched"
         
-    def undo(self):
+    def undo(self) -> str:
         self.output.media_playing = self.was_playing
-        return "media player closed"
+        return "media player was closed"
         
-    def redo(self):
+    def redo(self) -> str:
         return self.execute()
+    
 
-# Класс для хранения состояния вывода
+
 class OutputState:
-    def __init__(self):
+    def __init__(self) -> None:
         self.text = ""
         self.volume = 50
         self.media_playing = False
         
-    def add_char(self, char: str):
+    def add_char(self, char: str) -> None:
         self.text += char
         
-    def remove_char(self):
+    def remove_char(self) -> None:
         if self.text:
             self.text = self.text[:-1]
             
-    def get_state(self):
+    def get_state(self) -> dict[str, str | int | bool]:
         return {
             "text": self.text,
             "volume": self.volume,
             "media_playing": self.media_playing
         }
         
-    def set_state(self, state: dict):
+    def set_state(self, state: dict) -> None:
         self.text = state.get("text", "")
         self.volume = state.get("volume", 50)
         self.media_playing = state.get("media_playing", False)
 
 # Класс для сохранения состояния (Memento)
 class KeyboardMemento:
-    def __init__(self, state: dict):
+    def __init__(self, state: dict) -> None:
         self.state = state
         
     @classmethod
-    def from_keyboard(cls, keyboard):
+    def from_keyboard(cls, keyboard) -> Self:
         return cls({
             "key_bindings": keyboard.key_bindings,
             "output_state": keyboard.output.get_state()
@@ -124,7 +121,7 @@ class KeyboardMemento:
 
 # Класс виртуальной клавиатуры
 class VirtualKeyboard:
-    def __init__(self):
+    def __init__(self) -> None:
         self.key_bindings: Dict[str, Command] = {}
         self.output = OutputState()
         self.history: List[Command] = []
@@ -133,7 +130,7 @@ class VirtualKeyboard:
         # Инициализация стандартных команд
         self.init_default_bindings()
         
-    def init_default_bindings(self):
+    def init_default_bindings(self) -> None:
         self.bind_key("a", PrintCharCommand("a", self.output))
         self.bind_key("b", PrintCharCommand("b", self.output))
         self.bind_key("c", PrintCharCommand("c", self.output))
@@ -144,10 +141,10 @@ class VirtualKeyboard:
         self.bind_key("undo", None)  # Специальная обработка
         self.bind_key("redo", None)  # Специальная обработка
         
-    def bind_key(self, key: str, command: Optional[Command]):
+    def bind_key(self, key: str, command: Optional[Command]) -> None:
         self.key_bindings[key] = command
         
-    def press_key(self, key: str):
+    def press_key(self, key: str) -> str | None:
         if key == "undo":
             return self.undo()
         elif key == "redo":
