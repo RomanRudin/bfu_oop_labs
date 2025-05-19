@@ -1,7 +1,7 @@
 from enum import Enum
 from typing import Self
 
-COLORING = "\033[{}m\033[{}m{}"
+COLORING = "\033[{}m{}"
 PLACING = "\033[{};{}H{}"
 
 
@@ -23,11 +23,9 @@ class Printer:
     _char_width: int = 5
     _char_height: int = 5
 
-    def __init__(self, color: Color, position: tuple[int, int], symbol: str, background_color: Color = Color.TRANSPARENT) -> None:
+    def __init__(self, color: Color, position: tuple[int, int], symbol: str) -> None:
         self.color = color
-        self.background_color = background_color
         self.symbol = symbol
-        self.initial_x, self.initial_y = position
         self.current_x, self.current_y = position
 
 
@@ -36,8 +34,8 @@ class Printer:
         try:
             with open(filename, "r") as file:
                 cls._font.clear()
-                cls._char_height = file.readline().count('|')
-                cls._char_width = file.readline().count('_')
+                cls._char_height = int(file.readline().strip())
+                cls._char_width = int(file.readline().strip())
                 cls._font[' '] = [' '*cls._char_width for _ in range(cls._char_height)]
                 while True:
                     char = file.readline().replace('-', '').strip()
@@ -55,7 +53,7 @@ class Printer:
         
 
     @classmethod
-    def print_(cls, text: str, color: Color, position: tuple[int, int], symbol: str, background_color: Color = Color.BLACK) -> None:
+    def print_(cls, text: str, color: Color, position: tuple[int, int], symbol: str) -> None:
         if not cls._font:
             cls.load_font()
         
@@ -66,19 +64,19 @@ class Printer:
             
             for line_num, line in enumerate(cls._font[char]):
                 rendered = line.replace("*", symbol)
-                print(PLACING.format(y + line_num + 1, x + 1, COLORING.format(color.value, background_color.value + 10, rendered)), end="")
+                print(PLACING.format(y + line_num + 1, x + 1, COLORING.format(color.value, rendered)), end="")
             
             x += cls._char_width
         print()
 
 
     def __enter__(self) -> Self:
-        print(COLORING.format(self.color.value, self.background_color.value + 10, ''), end="") 
+        print(COLORING.format(self.color.value, ''), end="") 
         return self
 
 
     def __exit__(self, *args) -> None:
-        print(COLORING.format(Color.TRANSPARENT.value, Color.TRANSPARENT.value + 10, ''), end="")
+        print(COLORING.format(Color.TRANSPARENT.value, ''), end="")
 
 
     def print(self, text: str) -> None:
@@ -102,9 +100,9 @@ class Printer:
 if __name__ == "__main__":
     for _ in range(30):
         print()
-    Printer.load_font(filename="Labs/Lab2/font5.txt")
-    Printer.print_("AB", Color.RED, (5, 2), "#", background_color=Color.TRANSPARENT)
-    Printer.load_font(filename="Labs/Lab2/font7.txt")
-    with Printer(Color.GREEN, (0, 10), "@", background_color=Color.BLACK) as printer:
+    Printer.load_font(filename="font5.txt")
+    Printer.print_("AB", Color.RED, (5, 2), "#")
+    Printer.load_font(filename="font7.txt")
+    with Printer(Color.GREEN, (0, 10), "@") as printer:
         printer.print("OOP LABS ARE COOL")
         printer.print(" AB")

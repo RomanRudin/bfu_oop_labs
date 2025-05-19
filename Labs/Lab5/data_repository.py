@@ -5,6 +5,7 @@ import os, json
 from functools import total_ordering
 
 T = TypeVar('T')
+ID = "id"
 
 
 class DataRepositoryProtocol(Protocol[T]):
@@ -22,45 +23,52 @@ class DataRepositoryProtocol(Protocol[T]):
 
 
 class DataRepository(DataRepositoryProtocol[T]):
-    def __init__(self, file_path: str, entity_type: type) -> None:
-        self.file_path = file_path
-        self.entity_type = entity_type
-        os.makedirs(os.path.dirname(file_path), exist_ok=True)
-
-    def _load_data(self) -> List[Dict]:
+    def __init__(self, file_path: str, T: type) -> None:
         try:
-            with open(self.file_path, 'r') as f:
-                return json.load(f)
-        except (FileNotFoundError, json.JSONDecodeError):
-            return []
+            os.makedirs(os.path.dirname(file_path), exist_ok=True)
+            self.file_path = file_path
+            self._data = self._load_data()
+            self.T = T
+        except (FileNotFoundError, json.JSONDecodeError) as e:
+            print(e, self.file_path, sep="\n")
+            raise FileNotFoundError
 
-    def _save_data(self, data: List[Dict]) -> None:
-        with open(self.file_path, 'w') as f:
-            json.dump(data, f, indent=2)
+    def _load_data(self) -> None:
+        try:
+            with open(self.file_path, 'r') as file:
+                return json.load(file)
+        except (FileNotFoundError, json.JSONDecodeError) as e:
+            print(e, self.file_path, sep="\n")
+            raise FileNotFoundError
+
+    def _save_data(self) -> None:
+        try:
+            with open(self.file_path, 'w') as file:
+                json.dump(self._data, file, indent=2)
+        except (FileNotFoundError, json.JSONDecodeError) as e:
+            print(e, self.file_path, sep="\n")
+            raise FileNotFoundError
 
     def get_all(self) -> Sequence[T]:
-        return [self.entity_type(**item) for item in self._load_data()]
+        return [self.T(**item) for item in self._load_data()]
 
     def get_by_id(self, id: int) -> Optional[T]:
         for item in self._load_data():
-            if item['id'] == id:
-                return self.entity_type(**item)
+            if item[ID] == id:
+                return self.T(**item)
         return None
 
     def add(self, item: T) -> None:
-        data = self._load_data()
-        data.append(item.__dict__)
-        self._save_data(data)
+        self._data.append(item.__dict__)
+        self._save_data()
 
     def update(self, item: T) -> None:
-        data = self._load_data()
-        for i, entry in enumerate(data):
-            if entry['id'] == item.id:
-                data[i] = item.__dict__
+        for i, entry in enumerate(self._data):
+            if entry[ID] == item.id:
+                self._data[i] = item.__dict__
                 break
-        self._save_data(data)
+        self._save_data()
 
     def delete(self, item: T) -> None:
-        data = self._load_data()
-        data = [entry for entry in data if entry['id'] != item.id]
-        self._save_data(data)
+        self._data = [elem for elem in self._data if elem[ID] != item.id]
+        self._save_data(self._data)
