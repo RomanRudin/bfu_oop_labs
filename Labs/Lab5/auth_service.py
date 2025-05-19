@@ -36,10 +36,14 @@ class AuthService:
     def _save_session(self) -> None:
         if not self._current_user:
             return
-        with open(self.SESSION_FILE, 'w') as file:
-            json.dump({'user_id': self._current_user.id}, file)
+        try:
+            with open(self.SESSION_FILE, 'w') as file:
+                json.dump({'user_id': self._current_user.id}, file)
+        except FileNotFoundError as e:
+            print(e)
+            raise FileNotFoundError
 
-    def sign_in(self, login: str, password: str) -> bool:
+    def sign_in(self, login: str, password: str) -> bool: #! TODO
         user = self.user_repo.get_by_login(login)
         if user and user.password == password:
             self._current_user = user
