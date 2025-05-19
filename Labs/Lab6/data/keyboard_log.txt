@@ -1,0 +1,13 @@
+a
+b
+c
+undo: removed 'c'
+undo: removed 'b'
+redo: b
+volume increased +20%
+volume decreased -20%
+media player launched
+d
+undo: removed 'd'
+undo: media player closed
+Keyboard state saved
