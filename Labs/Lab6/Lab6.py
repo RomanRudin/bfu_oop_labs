@@ -1,14 +1,19 @@
 from v_keyboard import VirtualKeyboard
 
+COLORING = "\033[{}m{}\033[0m"
 
 if __name__ == "__main__":
     keyboard = VirtualKeyboard()
     
     if not keyboard.load_state():
-        print("No saved state found, using defaults")
+        print(COLORING.format(33, "No saved state found, using defaults"))
+    else:
+        print(COLORING.format(33, "Keyboard state loaded"))
+        print(COLORING.format(33, keyboard.output.get_state()))
     
     with open("Labs/Lab6/data/keyboard_log.txt", "w") as log_file:
         def print_and_log(message) -> None:
+            print(COLORING.format(32, message))
             print(keyboard.output.get_state())
             log_file.write(message + "\n")
         

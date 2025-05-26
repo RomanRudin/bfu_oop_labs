@@ -1,1 +1,59 @@
-{"key_bindings": {"a": ["PrintCharCommand", {"char": "a"}], "b": ["PrintCharCommand", {"char": "b"}], "c": ["PrintCharCommand", {"char": "c"}], "d": ["PrintCharCommand", {"char": "d"}], "ctrl++": ["VolumeUpCommand", {"amount": 20}], "ctrl+-": ["VolumeDownCommand", {"amount": 20}], "ctrl+p": ["MediaPlayerCommand", {"was_playing": false}], "undo": [null, null], "redo": [null, null]}, "output_state": {"text": "abab", "volume": 50, "media_playing": false}}
+{
+    "key_bindings": {
+        "a": [
+            "PrintCharCommand",
+            {
+                "char": "a"
+            }
+        ],
+        "b": [
+            "PrintCharCommand",
+            {
+                "char": "b"
+            }
+        ],
+        "c": [
+            "PrintCharCommand",
+            {
+                "char": "c"
+            }
+        ],
+        "d": [
+            "PrintCharCommand",
+            {
+                "char": "d"
+            }
+        ],
+        "ctrl++": [
+            "VolumeUpCommand",
+            {
+                "amount": 20
+            }
+        ],
+        "ctrl+-": [
+            "VolumeDownCommand",
+            {
+                "amount": 20
+            }
+        ],
+        "ctrl+p": [
+            "MediaPlayerCommand",
+            {
+                "was_playing": false
+            }
+        ],
+        "undo": [
+            null,
+            null
+        ],
+        "redo": [
+            null,
+            null
+        ]
+    },
+    "output_state": {
+        "text": "abab",
+        "volume": 50,
+        "media_playing": false
+    }
+}

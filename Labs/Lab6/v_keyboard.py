@@ -32,8 +32,10 @@ class VirtualKeyboard:
         elif key == "redo":
             return self.redo()
             
-        print(f"\033[33m{self.key_bindings}\033[0m")
         command = self.key_bindings.get(key)
+        if not command and len(key) == 1:
+            self.bind_key(key, PrintCharCommand(key, self.output))
+            command = self.key_bindings.get(key)
         if command:
             result = command.execute()
             self.history.append(command)
@@ -61,27 +63,28 @@ class VirtualKeyboard:
         
     def save_state(self, filename: str = "Labs/Lab6/data/keyboard_state.json") -> None:
         memento = KeyboardMemento.from_keyboard(self)
-        with open(filename, "w") as f:
-            json.dump(memento.state, f)
-            
+        try:
+            with open(filename, "w") as f:
+                json.dump(memento.state, f, indent=4)
+        except Exception as e:
+            print(f"Error saving state: {e}")
+            raise e
+
     def load_state(self, filename: str = "Labs/Lab6/data/keyboard_state.json") -> bool:
         try:
             with open(filename, "r") as f:
                 state = json.load(f)
 
             class_names = {cls.__name__: cls for cls in Command.__subclasses__()}
-            print(class_names)
                 
             self.key_bindings = {}
             raw_key_bindings = state.get("key_bindings", {})
             for bind, command_data in raw_key_bindings.items():
-                print(command_data)
                 if command_data[0] is None:
                     self.key_bindings[bind] = None
                 else:
                     command_data[1].update({"output": self.output})
                     command = class_names[command_data[0]](**command_data[1])
-                    print(command)
                     self.key_bindings[bind] = command
             self.output.set_state(state.get("output_state", {}))
             return True

@@ -62,9 +62,6 @@ class Injector:
             return instance
 
         if life_style == LifeStyle.SCOPED:
-            if not self._in_scope:
-                raise RuntimeError("Cannot resolve Scoped dependency outside of scope")
-            
             if interface_type in self._scoped_instances:
                 return self._scoped_instances[interface_type]
             
