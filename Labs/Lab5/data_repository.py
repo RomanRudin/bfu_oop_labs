@@ -29,8 +29,8 @@ class DataRepository(DataRepositoryProtocol[T]):
             self.file_path = file_path
             self._data = self._load_data()
             self.T = T
-        except (FileNotFoundError, json.JSONDecodeError) as e:
-            print(e, self.file_path, sep="\n")
+        except Exception as e:
+            print(e)
             raise FileNotFoundError
 
     def _load_data(self) -> None:

@@ -1,4 +1,4 @@
-from typing import Type, Dict, Generator, Any, Callable, Optional, TypeVar
+from typing import Type, Generator, Any, Callable, Optional, TypeVar
 from contextlib import contextmanager
 
 T = TypeVar('T')
@@ -10,17 +10,17 @@ class LifeStyle:
 
 class Injector:
     def __init__(self) -> None:
-        self._registrations: Dict[Type, Dict] = {}
-        self._singleton_instances: Dict[Type, Any] = {}
-        self._scoped_instances: Dict[Type, Any] = {}
+        self._registrations: dict[Type, dict] = {}
+        self._singleton_instances: dict[Type, Any] = {}
+        self._scoped_instances: dict[Type, Any] = {}
         self._in_scope = False
 
     def register(self, 
                interface_type: Type[T], 
                class_type: Optional[Type] = None, 
                life_style: str = LifeStyle.PER_REQUEST,
-               params: Optional[Dict] = None,
-               factory_method: Optional[Callable] = None) -> None:
+               factory_method: Optional[Callable] = None,
+               params: Optional[dict] = None) -> None:
         if factory_method and class_type:
             raise ValueError("Cannot specify both class_type and factory_method")
         
@@ -53,7 +53,6 @@ class Injector:
         registration = self._registrations[interface_type]
         life_style = registration['life_style']
 
-        # Singleton
         if life_style == LifeStyle.SINGLETON:
             if interface_type in self._singleton_instances:
                 return self._singleton_instances[interface_type]
@@ -62,11 +61,7 @@ class Injector:
             self._singleton_instances[interface_type] = instance
             return instance
 
-        # Scoped
         if life_style == LifeStyle.SCOPED:
-            if not self._in_scope:
-                raise RuntimeError("Cannot resolve Scoped dependency outside of scope")
-            
             if interface_type in self._scoped_instances:
                 return self._scoped_instances[interface_type]
             
@@ -74,10 +69,9 @@ class Injector:
             self._scoped_instances[interface_type] = instance
             return instance
 
-        # PerRequest
         return self._create_instance(registration)
 
-    def _create_instance(self, registration: Dict) -> Any:
+    def _create_instance(self, registration: dict) -> Any:
         if registration['factory_method']:
             return registration['factory_method']()
 
