@@ -7,7 +7,6 @@ Language was changed to Russian.
 - [Список выполненных лаб](#Labs-done)
 - [Тексты лаб](#Labs-text)
 - [Объяснения лаб](#Explanation-labs)
-- [Записи с практик](#Lectures)
 
 
 Нашли ошибку? Сделайте [пулл-реквест](https://habr.com/ru/articles/125999/) с исправлениями - будете соавтором.
@@ -28,10 +27,12 @@ Language was changed to Russian.
 </a>
 
 1. [x] [Точки и векторы](/Labs/Lab1/)
-2. [x] [Красивая консоль](/Labs/Lab2/lab2.py)
+2. [x] [Красивая консоль](/Labs/Lab2/lab2_simple.py)
 3. [x] [Система логирования](/Labs/Lab3/Lab3.py)
-4. [x] [Валидация и автообновление](/Labs/Lab4/Lab4.py)
-5. [ ] [Cистема авторизации](/Labs/Lab5/Lab5.py)
+4. [x] [Валидация и автообновление](/Labs/Lab4/)
+5. [X] [Cистема авторизации](/Labs/Lab5/)
+6. [X] [виртуальная клавиатура](/Labs/Lab6/)
+7. [ ] [Cистема авторизации](/Labs/Lab7/)
 
 
 
@@ -39,6 +40,14 @@ Language was changed to Russian.
 
 # Текст лаб
 </a>
+
+1. [Точки и векторы](/Labs/Lab1/task.md)
+2. [Красивая консоль](/Labs/Lab2/task.md)
+3. [Система логирования](/Labs/Lab3/task.md)
+4. [Валидация и автообновление](/Labs/Lab4/task.md)
+5. [Cистема авторизации](/Labs/Lab5/task.md)
+6. [виртуальная клавиатура](/Labs/Lab6/task.md)
+7. [Cистема авторизации](/Labs/Lab7/task.md)
 
 
 
@@ -48,16 +57,4 @@ Language was changed to Russian.
 # Объяснение лаб
 </a>
 
-
-
-
-
-<a name="Lectures">
-
-# Записи с практик
-</a>
-
-1. [Магические методы](/Practice/Lesson1/)
-
-2. [Наследование, аггрегация, композиция](/Practice/Lesson2/)
-
+А что мне объяснять-то?..

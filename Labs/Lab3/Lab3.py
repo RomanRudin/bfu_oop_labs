@@ -71,7 +71,7 @@ class SysLogHandler(LogHandlerProtocol):
     
 
 class Logger:
-    def __init__(self, handlers: list[LogHandlerProtocol], filters: list[LogHandlerProtocol]) -> None:
+    def __init__(self, handlers: list[LogHandlerProtocol], filters: list[LogFilterProtocol]) -> None:
         self.handlers = handlers
         self.filters = filters
 
