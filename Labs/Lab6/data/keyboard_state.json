@@ -49,10 +49,28 @@
         "redo": [
             null,
             null
+        ],
+        "v": [
+            "PrintCharCommand",
+            {
+                "char": "v"
+            }
+        ],
+        "r": [
+            "PrintCharCommand",
+            {
+                "char": "r"
+            }
+        ],
+        "g": [
+            "PrintCharCommand",
+            {
+                "char": "g"
+            }
         ]
     },
     "output_state": {
-        "text": "abab",
+        "text": "abababababcabcvabcvabcvabcvrabab",
         "volume": 50,
         "media_playing": false
     }
