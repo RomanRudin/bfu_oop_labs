@@ -83,7 +83,7 @@ class VirtualKeyboard:
                 if command_data[0] is None:
                     self.key_bindings[bind] = None
                 else:
-                    command_data[1].update({"output": self.output})
+                    command_data[1].update({"keyboard": self})
                     command = class_names[command_data[0]](**command_data[1])
                     self.key_bindings[bind] = command
             self.output = state.get("output_state", {})
