@@ -12,10 +12,10 @@ class KeyboardMemento:
                 key_bindings[bind] = [None, None]
             else:
                 command_dict = command.__dict__
-                command_dict.pop("output")
+                command_dict.pop("keyboard")
                 key_bindings[bind] = [str(command.__class__.__name__), command_dict]
 
         return cls({
             "key_bindings": key_bindings,
-            "output_state": keyboard.output.get_state()
+            "output_state": keyboard.output
         })

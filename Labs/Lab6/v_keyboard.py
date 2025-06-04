@@ -6,20 +6,20 @@ from memento import KeyboardMemento
 class VirtualKeyboard:
     def __init__(self) -> None:
         self.key_bindings: dict[str, Command] = {}
-        self.output = OutputState()
+        self.output = {"text": "", "volume": 0, "media_playing": False}
         self.history: list[Command] = []
         self.undo_stack: list[Command] = []
 
         self.init_default_bindings()
         
     def init_default_bindings(self) -> None:
-        self.bind_key("a", PrintCharCommand("a", self.output))
-        self.bind_key("b", PrintCharCommand("b", self.output))
-        self.bind_key("c", PrintCharCommand("c", self.output))
-        self.bind_key("d", PrintCharCommand("d", self.output))
-        self.bind_key("ctrl++", VolumeUpCommand(self.output))
-        self.bind_key("ctrl+-", VolumeDownCommand(self.output))
-        self.bind_key("ctrl+p", MediaPlayerCommand(self.output))
+        self.bind_key("a", PrintCharCommand("a",  self))
+        self.bind_key("b", PrintCharCommand("b",  self))
+        self.bind_key("c", PrintCharCommand("c",  self))
+        self.bind_key("d", PrintCharCommand("d",  self))
+        self.bind_key("ctrl++", VolumeUpCommand( self))
+        self.bind_key("ctrl+-", VolumeDownCommand( self))
+        self.bind_key("ctrl+p", MediaPlayerCommand( self))
         self.bind_key("undo", None)  
         self.bind_key("redo", None)  
         
@@ -34,7 +34,7 @@ class VirtualKeyboard:
             
         command = self.key_bindings.get(key)
         if not command and len(key) == 1:
-            self.bind_key(key, PrintCharCommand(key, self.output))
+            self.bind_key(key, PrintCharCommand(key, self))
             command = self.key_bindings.get(key)
         if command:
             result = command.execute()
@@ -86,7 +86,7 @@ class VirtualKeyboard:
                     command_data[1].update({"output": self.output})
                     command = class_names[command_data[0]](**command_data[1])
                     self.key_bindings[bind] = command
-            self.output.set_state(state.get("output_state", {}))
+            self.output = state.get("output_state", {})
             return True
         except (FileNotFoundError, json.JSONDecodeError):
             return False
