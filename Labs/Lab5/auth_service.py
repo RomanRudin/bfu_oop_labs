@@ -13,12 +13,12 @@ class AuthServiceProtocol(Protocol):
     def is_authorized(user: User) -> bool:
         ...
     @property
-    def auto_sign_in(user: User) -> Optional[User]:
+    def current_user(user: User) -> Optional[User]:
         ...
 
 
 
-class AuthService:
+class AuthService(AuthServiceProtocol):
     def __init__(self, user_repo: UserRepositoryProtocol, session_file: str = 'Labs/Lab5/data/session.json') -> None:
         self.SESSION_FILE = session_file
         self.user_repo = user_repo

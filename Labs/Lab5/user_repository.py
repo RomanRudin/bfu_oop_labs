@@ -2,6 +2,8 @@ from typing import Protocol, Optional, TypeVar, List, Dict, Sequence, Any
 from user import User
 from data_repository import DataRepository, DataRepositoryProtocol
 
+LOGIN = "login"
+
 
 class UserRepositoryProtocol(DataRepositoryProtocol[User], Protocol):
     def get_by_login(self, login: str) -> Optional[User]: 
@@ -15,6 +17,6 @@ class UserRepository(DataRepository[User], UserRepositoryProtocol):
 
     def get_by_login(self, login: str) -> Optional[User]:
         for item in self._load_data():
-            if item['login'] == login: #! TODO
+            if item[LOGIN] == login: #! TODO
                 return User(**item)
         return None

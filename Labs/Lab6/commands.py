@@ -36,6 +36,7 @@ class PrintCharCommand(Command):
         return self.execute()
     
 
+
 class VolumeUpCommand(Command):
     def __init__(self, keyboard: VirtualKeyboard, amount:  int = 20) -> None:
         self.keyboard = keyboard
@@ -51,13 +52,7 @@ class VolumeUpCommand(Command):
         
     def redo(self) -> str:
         return self.execute()
-    
-    @classmethod
-    def from_dict(cls, data: dict, keyboard: VirtualKeyboard) -> Self:
-        return cls({
-            "keyboard": keyboard,
-            "amount": data["amount"]
-        })
+
 
 
 class VolumeDownCommand(Command):
@@ -76,12 +71,7 @@ class VolumeDownCommand(Command):
     def redo(self) -> str:
         return self.execute()
     
-    @classmethod
-    def from_dict(cls, data: dict, keyboard: VirtualKeyboard) -> Self:
-        return cls({
-            "keyboard": keyboard,
-            "amount": data["amount"]
-        })
+
 
 class MediaPlayerCommand(Command):
     def __init__(self, keyboard: VirtualKeyboard, was_playing: bool = False) -> None:
@@ -100,9 +90,3 @@ class MediaPlayerCommand(Command):
     def redo(self) -> str:
         return self.execute()
     
-    @classmethod
-    def from_dict(cls, data: dict, keyboard: VirtualKeyboard) -> Self:
-        return cls({
-           "keyboard": keyboard,
-            "was_playing": data["was_playing"]
-        })
