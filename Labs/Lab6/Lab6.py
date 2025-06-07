@@ -1,4 +1,5 @@
 from v_keyboard import VirtualKeyboard
+from commands import PrintCharCommand
 
 COLORING = "\033[{}m{}\033[0m"
 
@@ -9,12 +10,11 @@ if __name__ == "__main__":
         print(COLORING.format(33, "No saved state found, using defaults"))
     else:
         print(COLORING.format(33, "Keyboard state loaded"))
-        print(COLORING.format(33, keyboard.output))
+        print(COLORING.format(33, PrintCharCommand.text))
     
     with open("Labs/Lab6/data/keyboard_log.txt", "w") as log_file:
         def print_and_log(message) -> None:
             print(COLORING.format(32, message))
-            print(keyboard.output)
             log_file.write(message + "\n")
         
         print_and_log(keyboard.press_key("a"))

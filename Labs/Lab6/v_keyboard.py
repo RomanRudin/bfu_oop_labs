@@ -6,20 +6,19 @@ from memento import KeyboardMemento
 class VirtualKeyboard:
     def __init__(self) -> None:
         self.key_bindings: dict[str, Command] = {}
-        self.output = {"text": "", "volume": 0, "media_playing": False}
-        self.history: list[Command] = []
-        self.undo_stack: list[Command] = []
+        self.history: list[dict[str, Command]] = []
+        self.undo_stack: list[dict[str, Command]] = []
 
         self.init_default_bindings()
         
     def init_default_bindings(self) -> None:
-        self.bind_key("a", PrintCharCommand("a",  self))
-        self.bind_key("b", PrintCharCommand("b",  self))
-        self.bind_key("c", PrintCharCommand("c",  self))
-        self.bind_key("d", PrintCharCommand("d",  self))
-        self.bind_key("ctrl++", VolumeUpCommand( self))
-        self.bind_key("ctrl+-", VolumeDownCommand( self))
-        self.bind_key("ctrl+p", MediaPlayerCommand( self))
+        self.bind_key("a", PrintCharCommand("a"))
+        self.bind_key("b", PrintCharCommand("b"))
+        self.bind_key("c", PrintCharCommand("c"))
+        self.bind_key("d", PrintCharCommand("d"))
+        self.bind_key("ctrl++", VolumeUpCommand())
+        self.bind_key("ctrl+-", VolumeDownCommand())
+        self.bind_key("ctrl+p", MediaPlayerCommand())
         self.bind_key("undo", None)  
         self.bind_key("redo", None)  
         
@@ -34,11 +33,11 @@ class VirtualKeyboard:
             
         command = self.key_bindings.get(key)
         if not command and len(key) == 1:
-            self.bind_key(key, PrintCharCommand(key, self))
+            self.bind_key(key, PrintCharCommand(key))
             command = self.key_bindings.get(key)
         if command:
             result = command.execute()
-            self.history.append(command)
+            self.history.append({"key": key, "command": command})
             self.undo_stack.clear()  
             return result
         return f"Unknown key: {key}"
@@ -48,7 +47,7 @@ class VirtualKeyboard:
             return "Nothing to undo"
             
         command = self.history.pop()
-        result = command.undo()
+        result = command["command"].undo()
         self.undo_stack.append(command)
         return f"undo: {result}"
         
@@ -57,7 +56,7 @@ class VirtualKeyboard:
             return "Nothing to redo"
             
         command = self.undo_stack.pop()
-        result = command.redo()
+        result = command["command"].redo()
         self.history.append(command)
         return f"redo: {result}"
         
@@ -74,19 +73,33 @@ class VirtualKeyboard:
         try:
             with open(filename, "r") as f:
                 state = json.load(f)
-
+            
+            PrintCharCommand.text = state['text']
             class_names = {cls.__name__: cls for cls in Command.__subclasses__()}
                 
-            self.key_bindings = {}
-            raw_key_bindings = state.get("key_bindings", {})
-            for bind, command_data in raw_key_bindings.items():
-                if command_data[0] is None:
-                    self.key_bindings[bind] = None
+            self.key_bindings.clear()
+            for key, command_data in state.get('key_bindings', {}).items():
+                if command_data is None:
+                    self.key_bindings[key] = None
                 else:
-                    command_data[1].update({"keyboard": self})
-                    command = class_names[command_data[0]](**command_data[1])
-                    self.key_bindings[bind] = command
-            self.output = state.get("output_state", {})
+                    command = class_names[command_data['class']](**command_data['state'])
+                    self.key_bindings[key] = command
+
+            self.history = [
+                {"key": key, "command": self.key_bindings[key]} 
+                for key in state.get('history', [])
+                if key in self.key_bindings.keys() and self.key_bindings[key] is not None
+            ]
+
+            self.undo_stack = [
+                {"key": key, "command": self.key_bindings[key]} 
+                for key in state.get('undo_stack', [])
+                if key in self.key_bindings.keys() and self.key_bindings[key] is not None
+            ]
             return True
-        except (FileNotFoundError, json.JSONDecodeError):
+        except (FileNotFoundError, json.JSONDecodeError, KeyError, AttributeError) as e:
+            print(f"Error loading state: {e}")
             return False
+
+
+

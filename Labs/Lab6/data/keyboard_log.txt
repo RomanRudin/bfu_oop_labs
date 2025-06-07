@@ -1,13 +1,13 @@
-a
-b
-c
-undo: removed 'c'
-undo: removed 'b'
-redo: b
-volume increased +20%
-volume decreased -20%
+ababa
+ababab
+abababc
+undo: ababab
+undo: ababa
+redo: ababab
+volume increased +20% (now: 110%)
+volume decreased -20% (now: -10%)
 media player launched
-d
-undo: removed 'd'
+abababd
+undo: ababab
 undo: media player closed
 Keyboard state saved

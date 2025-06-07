@@ -1,59 +1,69 @@
 {
+    "text": "ababab",
     "key_bindings": {
-        "a": [
-            "PrintCharCommand",
-            {
+        "a": {
+            "class": "PrintCharCommand",
+            "state": {
                 "char": "a"
             }
-        ],
-        "b": [
-            "PrintCharCommand",
-            {
+        },
+        "b": {
+            "class": "PrintCharCommand",
+            "state": {
                 "char": "b"
             }
-        ],
-        "c": [
-            "PrintCharCommand",
-            {
+        },
+        "c": {
+            "class": "PrintCharCommand",
+            "state": {
                 "char": "c"
             }
-        ],
-        "d": [
-            "PrintCharCommand",
-            {
+        },
+        "d": {
+            "class": "PrintCharCommand",
+            "state": {
                 "char": "d"
             }
-        ],
-        "ctrl++": [
-            "VolumeUpCommand",
-            {
-                "amount": 20
+        },
+        "ctrl++": {
+            "class": "VolumeUpCommand",
+            "state": {
+                "amount": 20,
+                "current_volume": 110
             }
-        ],
-        "ctrl+-": [
-            "VolumeDownCommand",
-            {
-                "amount": 20
+        },
+        "ctrl+-": {
+            "class": "VolumeDownCommand",
+            "state": {
+                "amount": 20,
+                "current_volume": -10
             }
-        ],
-        "ctrl+p": [
-            "MediaPlayerCommand",
-            {
-                "was_playing": false
+        },
+        "ctrl+p": {
+            "class": "MediaPlayerCommand",
+            "state": {
+                "is_playing": false
             }
-        ],
-        "undo": [
-            null,
-            null
-        ],
-        "redo": [
-            null,
-            null
-        ]
+        },
+        "undo": null,
+        "redo": null
     },
-    "output_state": {
-        "text": "ababababababababababab",
-        "volume": 0,
-        "media_playing": false
-    }
+    "history": [
+        "a",
+        "b",
+        "ctrl++",
+        "ctrl+-",
+        "a",
+        "b",
+        "ctrl++",
+        "ctrl+-",
+        "a",
+        "b",
+        "ctrl++",
+        "ctrl+-"
+    ],
+    "undo_stack": [
+        "d",
+        "ctrl+p"
+    ]
 }
