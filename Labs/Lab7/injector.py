@@ -2,6 +2,8 @@ from typing import Type, Generator, Any, Callable, Optional, TypeVar
 from contextlib import contextmanager
 
 T = TypeVar('T')
+
+
 class LifeStyle:
     PER_REQUEST = "PerRequest"
     SCOPED = "Scoped"
@@ -15,15 +17,15 @@ class Injector:
         self._scoped_instances: dict[Type, Any] = {}
         self._in_scope = False
 
-    def register(self, 
-               interface_type: Type[T], 
-               class_type: Optional[Type] = None, 
-               life_style: str = LifeStyle.PER_REQUEST,
-               factory_method: Optional[Callable] = None,
-               params: Optional[dict] = None) -> None:
+    def register(self,
+                 interface_type: Type[T],
+                 class_type: Optional[Type] = None,
+                 life_style: str = LifeStyle.PER_REQUEST,
+                 factory_method: Optional[Callable] = None,
+                 params: Optional[dict] = None) -> None:
         if factory_method and class_type:
             raise ValueError("Cannot specify both class_type and factory_method")
-        
+
         self._registrations[interface_type] = {
             'class_type': class_type,
             'life_style': life_style,
@@ -33,11 +35,10 @@ class Injector:
 
     @contextmanager
     def scope(self) -> Generator[None, Any, None]:
-        """Контекстный менеджер для работы с Scoped зависимостями"""
         if self._in_scope:
             yield
             return
-            
+
         self._in_scope = True
         self._scoped_instances.clear()
         try:
@@ -56,7 +57,7 @@ class Injector:
         if life_style == LifeStyle.SINGLETON:
             if interface_type in self._singleton_instances:
                 return self._singleton_instances[interface_type]
-            
+
             instance = self._create_instance(registration)
             self._singleton_instances[interface_type] = instance
             return instance
@@ -64,7 +65,7 @@ class Injector:
         if life_style == LifeStyle.SCOPED:
             if interface_type in self._scoped_instances:
                 return self._scoped_instances[interface_type]
-            
+
             instance = self._create_instance(registration)
             self._scoped_instances[interface_type] = instance
             return instance
@@ -78,14 +79,12 @@ class Injector:
         class_type = registration['class_type']
         params = registration['params'].copy()
 
-        # Автоматическое разрешение зависимостей в конструкторе
         constructor_params = {}
         if hasattr(class_type, '__annotations__'):
             for param_name, param_type in class_type.__annotations__.items():
                 if param_name != 'return' and param_type in self._registrations:
                     constructor_params[param_name] = self.get_instance(param_type)
 
-        # Добавляем явно указанные параметры
         constructor_params.update(params)
-        
+
         return class_type(**constructor_params)
