@@ -32,7 +32,7 @@ Language was changed to Russian.
 4. [x] [Валидация и автообновление](/Labs/Lab4/)
 5. [X] [Cистема авторизации](/Labs/Lab5/)
 6. [X] [виртуальная клавиатура](/Labs/Lab6/)
-7. [ ] [Cистема авторизации](/Labs/Lab7/)
+7. [x] [Cистема авторизации](/Labs/Lab7/)
 
 
 
@@ -57,4 +57,4 @@ Language was changed to Russian.
 # Объяснение лаб
 </a>
 
-А что мне объяснять-то?..
+[А что мне объяснять-то?.. Я всё сдавал очно, писать вручную объяснения лаб мне лень, поэтому вот так объясняли другие](https://drive.google.com/drive/folders/1H_pJxHXPEZq_6ljXvu9HP5HsdRLBEVD8?usp=sharing)
