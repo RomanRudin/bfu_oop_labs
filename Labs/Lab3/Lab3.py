@@ -20,7 +20,10 @@ class SimpleLogFilter(LogFilterProtocol):
 
 class ReLogFilter(LogFilterProtocol):
     def __init__(self, regex_pattern: str) -> None:
-        self.regex = re.compile(regex_pattern)
+        try:
+            self.regex = re.compile(regex_pattern)
+        except Exception as e:
+            print(f'regex error: {e}')
 
     def match(self, message: str) -> bool:
         return bool(self.regex.search(message))
@@ -76,7 +79,7 @@ class Logger:
         self.filters = filters
 
     def write(self, message: str) -> None:
-        if any(filter_cls.match(message) for filter_cls in self.filters):
+        if all(filter_cls.match(message) for filter_cls in self.filters):
             for handler in self.handlers:
                 handler.handle(message)
 
@@ -91,8 +94,8 @@ if __name__ == '__main__':
     ]
 
     filters = [
-        SimpleLogFilter('IMPORTANT'),
-        SimpleLogFilter('INFO'),
+        SimpleLogFilter('404'),
+        SimpleLogFilter('ERROR'),
         ReLogFilter(r'(ERROR|WARNING) \d+')
     ]
 
