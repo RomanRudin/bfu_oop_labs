@@ -1,6 +1,12 @@
 from enum import Enum
 from typing import Self
 
+#!
+#!
+#! DOES NOT WORK ON Python 3.12+
+#!
+#!
+
 COLORING = "\033[{}m\033[{}m{}"
 PLACING = "\033[{};{}H{}"
 
